@@ -17,7 +17,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description, isPublished } = req.body
     const user = req.user;
     // TODO: get video, upload to cloudinary, create video
-    if(!title || !description || !isPublished){
+    if (!title || !description || !isPublished) {
         throw new ApiError(499, "All fields are required")
     }
 
@@ -80,7 +80,7 @@ const updateVideo = asyncHandler(async (req, res) => {
 
     const video = await Video.findById(videoId)
 
-    const thumbnailLocalPath = req.file.path
+    const thumbnailLocalPath = req.file?.path
     if (!thumbnailLocalPath) {
         throw new ApiError(499, "Thumbnail is required")
     }
@@ -122,7 +122,16 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    
+    const video = await Video.findByIdAndUpdate(
+        videoId,
+        [
+            { $set: { isPublished: { $not: "$isPublished" } } }
+        ],
+        {new: true}
+    )
+    return res
+        .status(200)
+        .json(new ApiResponse(200, video.isPublished, "isPublished toggled successfully"))
 })
 
 
