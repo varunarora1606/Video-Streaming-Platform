@@ -276,7 +276,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     }
 
     const user = User.findByIdAndUpdate(
-        user.req,
+        req.user._id,
         {
             $set: {
                 avatar: avatar.url
@@ -300,7 +300,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     }
 
     const user = User.findByIdAndUpdate(
-        user.req,
+        req.user._id, // Wrong it should be req.user._id but is written user.req
         {
             $set: {
                 coverImage: coverImage.url
@@ -446,3 +446,5 @@ export {
     getUserChannelProfile,
     getWatchHistory
 }
+
+// Check all controllers again specially for updateAvatar and Img

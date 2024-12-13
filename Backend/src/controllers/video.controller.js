@@ -9,6 +9,7 @@ import { deleteFromCloudinary, updateOnCloudinary, uploadOnCloudinary } from "..
 
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
+    
     //TODO: get all videos based on query, sort, pagination
 })
 
@@ -143,3 +144,7 @@ export {
     deleteVideo,
     togglePublishStatus
 }
+
+// In delete video the video is not deleted from cloudinary, you can do that or you can also soft delete a video by not actually deleting it but by marking it as deleted
+
+// Need to correct updateVideo, right now anyone can update it there is no check for authorised users to update or delete or toggle
